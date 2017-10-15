@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-puts "Gotta start somewhere..."
+require_relative '../lib/upcoming_concerts'
+
+UpcomingConcerts::CLI.new.call
