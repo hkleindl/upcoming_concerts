@@ -1,25 +1,32 @@
-# artist name = doc.css("h4 a[title]")[2].values[1] => just the third artist
-# doc.css("h4 a[title]").collect {|i| i.values[1]} => all the artists names on page
+# artist = doc.css("td.artist span").text
+# date = doc.css("td.artist span").text
+# venue = doc.css("td.venue a[itemprop=url]").text
+# tickets_url = doc.css("td.more a").attr("href").value
 
 class UpcomingConcerts::Concert
 
-  @@all = []
-
-  attr_accessor :artist, :date, :time, :venue, :url
-
-  def self.list
-    doc = Nokogiri::HTML(open("http://pittsburgh.eventful.com/events/categories/music"))
-    binding.pry
+  def doc
+    @doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
   end
 
-  def self.all
-    @@all
+  def artists
+    @artists = @doc.css("td.artist span").text
   end
 
-  def add_concert
-
+  def self.list_all
+    # doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
+    # @artists = doc.css("td.artist span")
+    artists.each_with_index.collect {|artist, i| puts "#{i + 1}. #{artist.text}"}
+    # binding.pry
   end
 
+  def self.find(input)
+    # doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
+
+    # @artists = doc.css("td.artist span")
+    puts @artists[input - 1].text
+    # binding.pry
+  end
 
 
 
