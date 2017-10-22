@@ -5,27 +5,29 @@
 
 class UpcomingConcerts::Concert
 
-  def doc
+
+
+  def initialize
     @doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
+    @artists = @doc.css("td.artist span")
+    @venue = @doc.css("td.venue a[itemprop=url]")
+    @date = @doc.css("td.date a")
+    @tickets_url = @doc.css("td.artist a").collect {|i| i.attribute('href').to_s}
   end
 
-  def artists
-    @artists = @doc.css("td.artist span").text
+  def list_all
+    a = @artists.each_with_index.collect {|artist, i| puts "#{i + 1}. #{artist.text}"}
   end
 
-  def self.list_all
-    # doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
-    # @artists = doc.css("td.artist span")
-    artists.each_with_index.collect {|artist, i| puts "#{i + 1}. #{artist.text}"}
-    # binding.pry
+  def find(input)
+    @artists[input - 1].text
   end
 
-  def self.find(input)
-    # doc = Nokogiri::HTML(open("http://www.bandsintown.com/cities/pittsburgh-pa"))
+  def details(input)
+    puts "#{@artists[input - 1].text}"
+    puts "#{@venue[input - 1].text} - #{@date[input - 1].text}"
+    puts "You can buy tickets at http://www.bandsintown.com#{@tickets_url[input - 1]}"
 
-    # @artists = doc.css("td.artist span")
-    puts @artists[input - 1].text
-    # binding.pry
   end
 
 
