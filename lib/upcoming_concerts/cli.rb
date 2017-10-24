@@ -14,9 +14,11 @@ class UpcomingConcerts::CLI
 
   def select_concert
     puts "Enter the number of the concert to see more details, type list to see list of concerts, or type exit."
-    input = gets.to_i
-       if input.between?(1, UpcomingConcerts::Concert.new.list_all.length)
+    input = gets.chomp
+       if input.to_i.between?(1, UpcomingConcerts::Concert.new.list_all.length)
         UpcomingConcerts::Concert.new.details(input)
+      elsif input.downcase == "list"
+        select_concert
       #   select_concert
       # elsif input == "2"
       #   puts "Concert 2 details"
