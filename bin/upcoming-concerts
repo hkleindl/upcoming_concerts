@@ -2,5 +2,6 @@
 
 require_relative '../lib/upcoming_concerts'
 
-# UpcomingConcerts::CLI.new.call
-UpcomingConcerts::Concert.new.artist
+UpcomingConcerts::CLI.new.call
+# UpcomingConcerts::Concert.all
+# UpcomingConcerts::Scraper.new.scrape_concerts
