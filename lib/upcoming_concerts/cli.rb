@@ -3,7 +3,8 @@ class UpcomingConcerts::CLI
   def call
     UpcomingConcerts::Scraper.new.scrape_concerts
     list_concerts
-    # select_concert
+    select_concert
+    buy_tickets
   end
 
   def list_concerts
@@ -16,11 +17,39 @@ class UpcomingConcerts::CLI
   end
 
   def select_concert
-    input = nil
-    while input != "exit"
-      puts "Enter the number of the concert for more info, or type exit."
-      input = gets.strip
-    end
+    puts "Enter the number of concert to see more information, type 'list' to see the list of concerts again, or type 'exit'."
+    input = gets
+      if input.to_i.between?(1, UpcomingConcerts::Concert.all.length)
+        @concert = UpcomingConcerts::Concert.all[input.to_i - 1]
+        puts
+        puts "-#{@concert.artist}-"
+        puts "Performing at #{@concert.venue} on #{@concert.date}."
+        puts
+      elsif input.strip.downcase == "list"
+        call
+      elsif input.strip.downcase == "exit"
+        exit
+      else
+        puts "Invalid input"
+        send __method__
+      end
+  end
+
+  def buy_tickets
+    puts "Type 'tickets' to go to ticket site, type 'list' to see list of concerts, or type 'exit'."
+    input = gets.strip
+      if input.downcase == "tickets"
+        puts "http://www.bandsintown.com/cities/pittsburgh-pa#{@concert.tickets_url}"
+        puts
+        send __method__
+      elsif input.downcase == "list"
+        call
+      elsif input.downcase == "exit"
+        exit
+      else
+        puts "Invalid input."
+        send __method__
+      end
   end
 
 end
