@@ -1,14 +1,18 @@
 class UpcomingConcerts::CLI
 
-  def call
+  def initialize
     UpcomingConcerts::Scraper.new.scrape_concerts
+    call
+  end
+
+  def call
     list_concerts
     select_concert
     buy_tickets
   end
 
   def list_concerts
-    puts "Upcoming Concerts in Pittsburgh"
+    puts "~Upcoming Concerts in Pittsburgh~"
     puts
     UpcomingConcerts::Concert.all.each_with_index do |concert, i|
       puts "#{i + 1}. #{concert.artist}"
@@ -39,7 +43,8 @@ class UpcomingConcerts::CLI
     puts "Type 'tickets' to go to ticket site, type 'list' to see list of concerts, or type 'exit'."
     input = gets.strip
       if input.downcase == "tickets"
-        puts "http://www.bandsintown.com/cities/pittsburgh-pa#{@concert.tickets_url}"
+        puts
+        puts "To buy tickets, visit http://www.bandsintown.com/cities/pittsburgh-pa#{@concert.tickets_url}"
         puts
         send __method__
       elsif input.downcase == "list"
