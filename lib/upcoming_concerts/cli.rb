@@ -44,7 +44,7 @@ class UpcomingConcerts::CLI
     input = gets.strip
       if input.downcase == "tickets"
         puts
-        puts "To buy tickets, visit http://www.bandsintown.com/cities/pittsburgh-pa#{@concert.tickets_url}"
+        puts "To buy tickets, visit http://www.bandsintown.com#{@concert.tickets_url}"
         puts
         send __method__
       elsif input.downcase == "list"
